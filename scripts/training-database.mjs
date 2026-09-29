@@ -1,0 +1,2 @@
+import pg from '../.tools/postgres/node_modules/pg/lib/index.js';
+const client=new pg.Client({host:'127.0.0.1',port:5439,user:'devpractice_test',password:'disposable-local-test-only',database:'postgres'});await client.connect();const exists=await client.query('SELECT 1 FROM pg_database WHERE datname=$1',['support_desk_test']);if(!exists.rowCount)await client.query('CREATE DATABASE support_desk_test');await client.end();console.log('Isolated support_desk_test database is ready.');

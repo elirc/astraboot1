@@ -1,0 +1,1 @@
+import {buildApp} from './app';const app=buildApp({logger:true});await app.listen({host:'127.0.0.1',port:Number(process.env.PORT??4320)});console.log('Training API only: fictional identity headers are not production authentication.');

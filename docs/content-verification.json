@@ -1,0 +1,31 @@
+{
+    "checkedAt":  "2026-09-09T22:36:19.5611683Z",
+    "command":  "--import tsx packages/content-tools/src/cli.ts validate curriculum/snapshot.json --v1",
+    "exitCode":  0,
+    "node":  "24.21.0",
+    "courseRelease":  "V1",
+    "packageId":  "devpractice-foundation",
+    "packageVersion":  5,
+    "snapshotSha256":  "aa06cb28a6789fca183307068a9fa2bf7a2afadc3b3a636643f24d46bf01bcfb",
+    "assetRevision":  "v4",
+    "validation":  {
+                       "file":  "curriculum/snapshot.json",
+                       "counts":  {
+                                      "track":  1,
+                                      "chapter":  12,
+                                      "lesson":  36,
+                                      "exercise":  108,
+                                      "review_card":  72,
+                                      "assessment":  12,
+                                      "mission":  3
+                                  },
+                       "functionsChecked":  28,
+                       "mutantsRejected":  57,
+                       "warnings":  [
+
+                                    ]
+                   },
+    "placementItems":  60,
+    "assetChecks":  "All current manifest paths read and SHA-256 checksums matched",
+    "missionExecution":  "Recorded separately; checksum validation does not certify project behavior"
+}

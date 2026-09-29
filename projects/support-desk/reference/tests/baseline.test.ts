@@ -1,0 +1,2 @@
+import {test,expect} from 'vitest';import {createMockAdapter} from '../src/mock-api';import {fixtures} from '../src/fixtures';
+test('fixture adapter is usable and preserves source data',async()=>{const before=JSON.stringify(fixtures);const api=createMockAdapter({delay:0});const data=await api.list({});expect(data.items.length).toBeGreaterThan(0);expect((await api.detail(data.items[0]!.id)).comments).toEqual([]);expect(JSON.stringify(fixtures)).toBe(before);});

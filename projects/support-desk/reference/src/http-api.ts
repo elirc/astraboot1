@@ -1,0 +1,5 @@
+import {ApiError,type Adapter,type Page,type Detail,type Ticket,type Comment} from './contracts';
+export function createHttpAdapter(ownerId='alex'):Adapter{
+async function request<T>(path:string,init:RequestInit={}):Promise<T>{const response=await fetch('/api'+path,{...init,headers:{'Content-Type':'application/json','X-Training-User':ownerId,...init.headers}});const data=await response.json();if(!response.ok)throw new ApiError(data.error?.message??'Request failed',response.status,data.error?.fields??{});return data.data;}
+return {list({status,cursor,limit=10,signal}){const q=new URLSearchParams({limit:String(limit)});if(status)q.set('status',status);if(cursor)q.set('cursor',cursor);return request<Page>('/tickets?'+q,{signal});},detail(id,signal){return request<Detail>('/tickets/'+encodeURIComponent(id),{signal});},create(input){return request<Ticket>('/tickets',{method:'POST',body:JSON.stringify(input)});},comment(id,body){return request<Comment>('/tickets/'+encodeURIComponent(id)+'/comments',{method:'POST',body:JSON.stringify({body})});}};
+}

@@ -1,0 +1,289 @@
+generator client {
+ provider = "prisma-client-js"
+}
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+model User {
+ id String @id @default(uuid()) @db.Uuid
+ normalizedEmail String @unique
+ passwordHash String
+ timezone String @default("UTC")
+ theme String @default("system")
+ preferencesRevision Int @default(0)
+ activeReleaseRevision Int @default(0)
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ Session_userId Session[] @relation("Session_userId")
+ Attempt_userId Attempt[] @relation("Attempt_userId")
+ RevealEvent_userId RevealEvent[] @relation("RevealEvent_userId")
+ LessonProgress_userId LessonProgress[] @relation("LessonProgress_userId")
+ PlacementAttempt_userId PlacementAttempt[] @relation("PlacementAttempt_userId")
+ ExerciseDraft_userId ExerciseDraft[] @relation("ExerciseDraft_userId")
+ ReviewState_userId ReviewState[] @relation("ReviewState_userId")
+ ReviewEvent_userId ReviewEvent[] @relation("ReviewEvent_userId")
+ Note_userId Note[] @relation("Note_userId")
+ Bookmark_userId Bookmark[] @relation("Bookmark_userId")
+ MissionProgress_userId MissionProgress[] @relation("MissionProgress_userId")
+ XpAward_userId XpAward[] @relation("XpAward_userId")
+ ActivityEvent_userId ActivityEvent[] @relation("ActivityEvent_userId")
+ MutationReceipt_userId MutationReceipt[] @relation("MutationReceipt_userId")
+ ContentRelease_ownerId ContentRelease[] @relation("ContentRelease_ownerId")
+ activeReleaseId String? @db.Uuid
+ activeReleaseIdRef ContentRelease? @relation("User_activeReleaseId",fields:[activeReleaseId],references:[id],onDelete:Restrict)
+}
+model Session {
+ id String @id @default(uuid()) @db.Uuid
+ tokenHash String @unique
+ csrfSecret String
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ lastSeenAt DateTime @default(now()) @db.Timestamptz(3)
+ expiresAt DateTime @db.Timestamptz(3)
+ revokedAt DateTime? @db.Timestamptz(3)
+ userId String @db.Uuid
+ userIdRef User @relation("Session_userId",fields:[userId],references:[id],onDelete:Restrict)
+}
+model ContentItem {
+ id String @id
+ kind String
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ ContentVersion_itemId ContentVersion[] @relation("ContentVersion_itemId")
+ ReleaseItem_itemId ReleaseItem[] @relation("ReleaseItem_itemId")
+ RevealEvent_itemId RevealEvent[] @relation("RevealEvent_itemId")
+ LessonProgress_lessonId LessonProgress[] @relation("LessonProgress_lessonId")
+ ExerciseDraft_exerciseId ExerciseDraft[] @relation("ExerciseDraft_exerciseId")
+ ReviewState_cardId ReviewState[] @relation("ReviewState_cardId")
+ Note_contentItemId Note[] @relation("Note_contentItemId")
+ Bookmark_contentItemId Bookmark[] @relation("Bookmark_contentItemId")
+ MissionProgress_missionId MissionProgress[] @relation("MissionProgress_missionId")
+ ActivityEvent_contentItemId ActivityEvent[] @relation("ActivityEvent_contentItemId")
+}
+model ContentVersion {
+ id String @id @default(uuid()) @db.Uuid
+ version Int
+ masteryRevision Int
+ payload Json
+ checksum String
+ @@unique([itemId, version])
+ itemId String
+ itemIdRef ContentItem @relation("ContentVersion_itemId",fields:[itemId],references:[id],onDelete:Restrict)
+ ReleaseItem_versionId ReleaseItem[] @relation("ReleaseItem_versionId")
+ Attempt_exerciseVersionId Attempt[] @relation("Attempt_exerciseVersionId")
+ PlacementAttempt_assessmentVersionId PlacementAttempt[] @relation("PlacementAttempt_assessmentVersionId")
+ ExerciseDraft_contentVersionId ExerciseDraft[] @relation("ExerciseDraft_contentVersionId")
+ ReviewEvent_cardVersionId ReviewEvent[] @relation("ReviewEvent_cardVersionId")
+}
+model ContentRelease {
+ id String @id @default(uuid()) @db.Uuid
+ packageId String
+ packageVersion Int
+ checksum String
+ state String @default("draft")
+ snapshot Json
+ validationSummary Json
+ baseReleaseId String? @db.Uuid
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ publishedAt DateTime? @db.Timestamptz(3)
+ @@unique([ownerId,packageId,packageVersion])
+ ownerId String @db.Uuid
+ ownerIdRef User @relation("ContentRelease_ownerId",fields:[ownerId],references:[id],onDelete:Restrict)
+ User_activeReleaseId User[] @relation("User_activeReleaseId")
+ ReleaseItem_releaseId ReleaseItem[] @relation("ReleaseItem_releaseId")
+}
+model ReleaseItem {
+ kind String
+ title String
+ parentId String?
+ sequence Int @default(0)
+ @@id([releaseId,itemId])
+ @@index([releaseId,kind,sequence,itemId])
+ releaseId String @db.Uuid
+ releaseIdRef ContentRelease @relation("ReleaseItem_releaseId",fields:[releaseId],references:[id],onDelete:Restrict)
+ itemId String
+ itemIdRef ContentItem @relation("ReleaseItem_itemId",fields:[itemId],references:[id],onDelete:Restrict)
+ versionId String @db.Uuid
+ versionIdRef ContentVersion @relation("ReleaseItem_versionId",fields:[versionId],references:[id],onDelete:Restrict)
+}
+model Concept {
+ id String @id
+ title String
+ description String
+}
+model Attempt {
+ id String @id @default(uuid()) @db.Uuid
+ clientEventId String @db.Uuid
+ source String?
+ answer Json?
+ outcome String
+ gradingOrigin String
+ assistance String
+ result Json
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@unique([userId,clientEventId])
+ @@index([userId,exerciseVersionId,createdAt])
+ @@index([userId,createdAt,id])
+ userId String @db.Uuid
+ userIdRef User @relation("Attempt_userId",fields:[userId],references:[id],onDelete:Restrict)
+ exerciseVersionId String @db.Uuid
+ exerciseVersionIdRef ContentVersion @relation("Attempt_exerciseVersionId",fields:[exerciseVersionId],references:[id],onDelete:Restrict)
+}
+model RevealEvent {
+ id String @id @default(uuid()) @db.Uuid
+ clientEventId String @db.Uuid
+ masteryRevision Int
+ revealKind String
+ hintIndex Int?
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@unique([userId,clientEventId])
+ @@index([userId,itemId,masteryRevision])
+ userId String @db.Uuid
+ userIdRef User @relation("RevealEvent_userId",fields:[userId],references:[id],onDelete:Restrict)
+ itemId String
+ itemIdRef ContentItem @relation("RevealEvent_itemId",fields:[itemId],references:[id],onDelete:Restrict)
+}
+model LessonProgress {
+ status String
+ readAcknowledged Boolean @default(false)
+ startedAt DateTime @default(now()) @db.Timestamptz(3)
+ completedAt DateTime? @db.Timestamptz(3)
+ version Int @default(0)
+ @@id([userId,lessonId])
+ userId String @db.Uuid
+ userIdRef User @relation("LessonProgress_userId",fields:[userId],references:[id],onDelete:Restrict)
+ lessonId String
+ lessonIdRef ContentItem @relation("LessonProgress_lessonId",fields:[lessonId],references:[id],onDelete:Restrict)
+}
+model PlacementAttempt {
+ id String @id @default(uuid()) @db.Uuid
+ clientEventId String @db.Uuid
+ submittedAnswers Json
+ itemResults Json @default("[]")
+ score Int
+ qualified Boolean
+ practiceOnly Boolean
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@unique([userId,clientEventId])
+ @@index([userId,createdAt,id])
+ userId String @db.Uuid
+ userIdRef User @relation("PlacementAttempt_userId",fields:[userId],references:[id],onDelete:Restrict)
+ assessmentVersionId String @db.Uuid
+ assessmentVersionIdRef ContentVersion @relation("PlacementAttempt_assessmentVersionId",fields:[assessmentVersionId],references:[id],onDelete:Restrict)
+}
+model ExerciseDraft {
+ id String @id @default(uuid()) @db.Uuid
+ source String
+ revision Int @default(1)
+ updatedAt DateTime @updatedAt @db.Timestamptz(3)
+ @@unique([userId,exerciseId])
+ userId String @db.Uuid
+ userIdRef User @relation("ExerciseDraft_userId",fields:[userId],references:[id],onDelete:Restrict)
+ exerciseId String
+ exerciseIdRef ContentItem @relation("ExerciseDraft_exerciseId",fields:[exerciseId],references:[id],onDelete:Restrict)
+ contentVersionId String @db.Uuid
+ contentVersionIdRef ContentVersion @relation("ExerciseDraft_contentVersionId",fields:[contentVersionId],references:[id],onDelete:Restrict)
+ DraftSnapshot_draftId DraftSnapshot[] @relation("DraftSnapshot_draftId")
+}
+model DraftSnapshot {
+ id String @id @default(uuid()) @db.Uuid
+ source String
+ baseRevision Int
+ reason String
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ draftId String @db.Uuid
+ draftIdRef ExerciseDraft @relation("DraftSnapshot_draftId",fields:[draftId],references:[id],onDelete:Restrict)
+}
+model ReviewState {
+ step Int @default(0)
+ dueAt DateTime @default(now()) @db.Timestamptz(3)
+ lastReviewedAt DateTime? @db.Timestamptz(3)
+ revision Int @default(0)
+ @@id([userId,cardId])
+ @@index([userId,dueAt])
+ userId String @db.Uuid
+ userIdRef User @relation("ReviewState_userId",fields:[userId],references:[id],onDelete:Restrict)
+ cardId String
+ cardIdRef ContentItem @relation("ReviewState_cardId",fields:[cardId],references:[id],onDelete:Restrict)
+}
+model ReviewEvent {
+ id String @id @default(uuid()) @db.Uuid
+ clientEventId String @db.Uuid
+ rating String
+ correctness Boolean?
+ gradingOrigin String
+ fromRevision Int
+ wasDue Boolean
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@unique([userId,clientEventId])
+ userId String @db.Uuid
+ userIdRef User @relation("ReviewEvent_userId",fields:[userId],references:[id],onDelete:Restrict)
+ cardVersionId String @db.Uuid
+ cardVersionIdRef ContentVersion @relation("ReviewEvent_cardVersionId",fields:[cardVersionId],references:[id],onDelete:Restrict)
+}
+model Note {
+ id String @id @default(uuid()) @db.Uuid
+ title String @db.VarChar(200)
+ body String
+ revision Int @default(1)
+ deletedAt DateTime? @db.Timestamptz(3)
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ updatedAt DateTime @updatedAt @db.Timestamptz(3)
+ @@index([userId,updatedAt])
+ userId String @db.Uuid
+ userIdRef User @relation("Note_userId",fields:[userId],references:[id],onDelete:Restrict)
+ contentItemId String?
+ contentItemIdRef ContentItem? @relation("Note_contentItemId",fields:[contentItemId],references:[id],onDelete:Restrict)
+}
+model Bookmark {
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@id([userId,contentItemId])
+ userId String @db.Uuid
+ userIdRef User @relation("Bookmark_userId",fields:[userId],references:[id],onDelete:Restrict)
+ contentItemId String
+ contentItemIdRef ContentItem @relation("Bookmark_contentItemId",fields:[contentItemId],references:[id],onDelete:Restrict)
+}
+model MissionProgress {
+ checklist Json
+ status String
+ repositoryUrl String?
+ commitHash String?
+ report Json
+ revision Int @default(1)
+ updatedAt DateTime @updatedAt @db.Timestamptz(3)
+ @@id([userId,missionId])
+ @@index([userId,status])
+ userId String @db.Uuid
+ userIdRef User @relation("MissionProgress_userId",fields:[userId],references:[id],onDelete:Restrict)
+ missionId String
+ missionIdRef ContentItem @relation("MissionProgress_missionId",fields:[missionId],references:[id],onDelete:Restrict)
+}
+model XpAward {
+ id String @id @default(uuid()) @db.Uuid
+ awardKey String
+ amount Int
+ reason String
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@unique([userId,awardKey])
+ userId String @db.Uuid
+ userIdRef User @relation("XpAward_userId",fields:[userId],references:[id],onDelete:Restrict)
+}
+model ActivityEvent {
+ id String @id @default(uuid()) @db.Uuid
+ kind String
+ relatedRecordId String?
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@index([userId,createdAt,id])
+ userId String @db.Uuid
+ userIdRef User @relation("ActivityEvent_userId",fields:[userId],references:[id],onDelete:Restrict)
+ contentItemId String?
+ contentItemIdRef ContentItem? @relation("ActivityEvent_contentItemId",fields:[contentItemId],references:[id],onDelete:Restrict)
+}
+model MutationReceipt {
+ clientEventId String @db.Uuid
+ operation String
+ requestHash String
+ response Json
+ createdAt DateTime @default(now()) @db.Timestamptz(3)
+ @@id([userId,clientEventId])
+ userId String @db.Uuid
+ userIdRef User @relation("MutationReceipt_userId",fields:[userId],references:[id],onDelete:Restrict)
+}

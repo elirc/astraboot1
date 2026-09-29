@@ -1,0 +1,23 @@
+node_modules
+dist
+.git
+.env
+.data
+.tools
+playwright-report
+test-results
+*.log
+
+projects/**/generated
+projects/**/dist
+projects/**/test-results
+projects/**/playwright-report
+projects/**/.env
+
+# Exclude local secrets and nested dependency trees from build contexts.
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules

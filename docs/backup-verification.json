@@ -1,0 +1,139 @@
+{
+  "checkedAt": "2026-09-09T20:55:41.353Z",
+  "database": "devpractice_restore_1788987148513",
+  "snapshot": "0000005B-00000002-1",
+  "tables": [
+    {
+      "table": "ActivityEvent",
+      "original": 51,
+      "restored": 51,
+      "sha256": "1c3ccf9b6c9e1377f304314c0247efb137108179b839eb1bf4738d0d53d7709a"
+    },
+    {
+      "table": "Attempt",
+      "original": 10037,
+      "restored": 10037,
+      "sha256": "1b50dd7659d98caf172d46d808d8b1637e8d8224507cd24794f923177dfc1ea9"
+    },
+    {
+      "table": "Bookmark",
+      "original": 2,
+      "restored": 2,
+      "sha256": "136442c0d258fdeae5643ff9fe3d31594894eda8ae22013acbe08df9cdd03a0c"
+    },
+    {
+      "table": "Concept",
+      "original": 36,
+      "restored": 36,
+      "sha256": "77c1a4fcc4a5fe5a94b4bda270c16755791acb9df2103f543ddf7a5f11123f3b"
+    },
+    {
+      "table": "ContentItem",
+      "original": 14205,
+      "restored": 14205,
+      "sha256": "2d3a522889b921055b9de2866edbee029e7090fc42936207fd28efc7c249c8d6"
+    },
+    {
+      "table": "ContentRelease",
+      "original": 44,
+      "restored": 44,
+      "sha256": "4f9440a474a140dbb0e0bf16a555a1a6f1ad16bbb8c4f64ba24fb7df34b9faf6"
+    },
+    {
+      "table": "ContentVersion",
+      "original": 14215,
+      "restored": 14215,
+      "sha256": "58a251875c4a5ee28007203c85228244d0cfcca44978b3ae054dbbe689a3cfb8"
+    },
+    {
+      "table": "DraftSnapshot",
+      "original": 0,
+      "restored": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "table": "ExerciseDraft",
+      "original": 6,
+      "restored": 6,
+      "sha256": "543a0a4af492393deb0909089ad335a76b4394e6640f2273b11dd15b3d7668f5"
+    },
+    {
+      "table": "LessonProgress",
+      "original": 15,
+      "restored": 15,
+      "sha256": "aac3efc81c94ec5c8fb32a71e1627f2308e21d97ec94b2c916a1bc508034648c"
+    },
+    {
+      "table": "MissionProgress",
+      "original": 0,
+      "restored": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "table": "MutationReceipt",
+      "original": 122,
+      "restored": 122,
+      "sha256": "5ff83744ab6da53dc002b823bf8bf551fa2eadc2a752ef1fd4fb39cff93f1e90"
+    },
+    {
+      "table": "Note",
+      "original": 12,
+      "restored": 12,
+      "sha256": "d9a3f38b0f3e8fd2250f0dee6771392a003333736c37025c85395819d670db7e"
+    },
+    {
+      "table": "PlacementAttempt",
+      "original": 14,
+      "restored": 14,
+      "sha256": "ebc8a85363cd4f6668fe9088504aa54859287797762644067121c6d0a278f554"
+    },
+    {
+      "table": "ReleaseItem",
+      "original": 16216,
+      "restored": 16216,
+      "sha256": "42af83c7be7497d80fd056888deb198194cebfade4350548465c8405472aed8a"
+    },
+    {
+      "table": "RevealEvent",
+      "original": 4,
+      "restored": 4,
+      "sha256": "42a8dfbd37453106559a20f56eac4c695ef6d8a99a2fba6632ee64b50f9f652c"
+    },
+    {
+      "table": "ReviewEvent",
+      "original": 4,
+      "restored": 4,
+      "sha256": "0a7f9447f62941f45ab3bca94718c34d7392ae45ccdd4f07b05e31a5d7552fcb"
+    },
+    {
+      "table": "ReviewState",
+      "original": 28,
+      "restored": 28,
+      "sha256": "6740c3afec0c44ba46294b8327700e40be326c3fe666d5844256132a52767917"
+    },
+    {
+      "table": "Session",
+      "original": 46,
+      "restored": 46,
+      "sha256": "b4f69aeaa0ceaa27beb3fb319235f6db123efd768b0d10a195af70196cac0dc2"
+    },
+    {
+      "table": "User",
+      "original": 31,
+      "restored": 31,
+      "sha256": "f952fb825f848b8418dc710dcf2f2b66e8482aa374b5ecec04a50eebf5946815"
+    },
+    {
+      "table": "XpAward",
+      "original": 45,
+      "restored": 45,
+      "sha256": "a0143f719898926ce7a957ff5c0679b27472adb8ce0eeef015f930511a7b414a"
+    },
+    {
+      "table": "_prisma_migrations",
+      "original": 3,
+      "restored": 3,
+      "sha256": "8f4793bf554da3822de07b6019993ca45ea15f8e1805b390ff8b458339fabd59"
+    }
+  ]
+}

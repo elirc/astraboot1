@@ -1,0 +1,1041 @@
+{
+  "schemaVersion": 1,
+  "packageId": "devpractice-foundation",
+  "packageVersion": 1,
+  "baseReleaseId": null,
+  "mode": "snapshot",
+  "title": "DevPractice foundation fixture",
+  "items": [
+    {
+      "kind": "track",
+      "id": "web-engineering",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Web application engineering",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Build practical web engineering judgment through original lessons and real projects.",
+      "chapterIds": [
+        "v1-ch01"
+      ],
+      "description": "JavaScript, TypeScript, React, Node.js, and relational persistence.",
+      "targetOutcomes": [
+        "Build, debug, test, and maintain a web application."
+      ]
+    },
+    {
+      "kind": "chapter",
+      "id": "v1-ch01",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "The web development workflow",
+      "conceptIds": [
+        "web.request-lifecycle",
+        "workflow.git-and-scripts",
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Trace a request, make focused changes, and debug from evidence.",
+      "trackId": "web-engineering",
+      "lessonIds": [
+        "v1-l01",
+        "v1-l02",
+        "v1-l03"
+      ],
+      "assessmentId": "v1-ch01-placement",
+      "objectiveIds": [
+        "web.request-lifecycle",
+        "workflow.git-and-scripts",
+        "workflow.debugging"
+      ],
+      "missionIds": [],
+      "sequence": 1,
+      "release": "V1"
+    },
+    {
+      "kind": "lesson",
+      "id": "v1-l01",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Follow a browser request",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "A support agent clicks a ticket in the browser. The screen changes, but the ticket may have come from a different computer. Understanding that boundary makes debugging much less mysterious.\n\nThe browser is the **client**. It presents controls, gathers input, and sends a request. The server receives the request, applies rules, and returns a response. A database is a separate store used by the server; the browser should not receive its credentials.\n\nAn HTTP request describes an operation with a method, a path, headers, and sometimes a body. For example, GET /api/tickets/42 asks for a representation of ticket 42. The path identifies the resource; it is not the response data. A response includes a status code, headers, and a body. A 200 response might contain JSON describing the ticket. The browser parses that JSON and renders a component. A 404 response says the resource is unavailable under the API’s policy.\n\nThink of the round trip as a sequence of observable boundaries: a click handler runs; a request leaves the browser; a route matches; the server checks access and reads data; a response arrives; the client updates the display. Each boundary gives you a place to collect evidence. The browser’s Network panel shows the request and response even when the screen itself looks wrong.\n\nThe server owns authoritative rules such as access control and persistence. A disabled button improves the experience, but somebody can send a request without that button. The browser owns presentation and immediate feedback. Both sides may validate a title: the browser to help the agent quickly, and the server to protect the stored data.\n\nA successful network request does not prove the UI is correct. If the response contains a title but the page is blank, inspect parsing, state updates, and rendering next. If no request appears, inspect the interaction and client code before changing a database query.",
+      "chapterId": "v1-ch01",
+      "objectives": [
+        "Identify request and response fields.",
+        "Separate presentation from authoritative server decisions."
+      ],
+      "estimatedMinutes": 7,
+      "workedExampleMarkdown": "~~~http\nGET /api/tickets/42 HTTP/1.1\nAccept: application/json\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"id\":\"42\",\"title\":\"Printer offline\"}\n~~~\n\nThe request asks for ticket 42. The response status reports success; the final JSON object is the response body. The React component decides how to display its title.",
+      "commonMistakes": [
+        "Calling the request path the response body.",
+        "Treating client-side hiding as an authorization check.",
+        "Assuming a blank screen always means the server failed."
+      ],
+      "summary": "Inspect each boundary separately: input, request, server decision, response, and rendering.",
+      "exerciseIds": [
+        "v1-l01-e1",
+        "v1-l01-e2",
+        "v1-l01-e3"
+      ],
+      "reviewCardIds": [
+        "v1-l01-r1",
+        "v1-l01-r2"
+      ],
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"
+      ]
+    },
+    {
+      "kind": "lesson",
+      "id": "v1-l02",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Use Git and project commands",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "A ticket feature is ready to save, but your working folder contains both the intended change and an unrelated experiment. Git helps you make the boundary of that change explicit.\n\nYour working tree contains the files you are editing. The staging area describes what the next commit will contain. A commit records that staged snapshot with a message. Saving in an editor does not automatically stage or commit a file. A remote repository is another copy of the history; committing locally does not publish it.\n\nStart with git status to see the working tree and staging state. Read git diff to inspect unstaged changes. Stage only the relevant files, then read git diff --staged before committing. That final review catches debug output, accidental edits, and secrets before they become part of a snapshot. A useful commit message describes the behavior changed, such as “Reject blank ticket titles.”\n\nProject commands are another boundary worth reading. A package.json scripts entry maps a friendly name to an actual command. Running pnpm test only works if the project defines a test script, and the meaning of that script belongs to that repository. A missing-script error is different from a test assertion failure. The first means the command was not configured; the second means the test runner started and observed unexpected behavior.\n\nUse the package manager and lockfile already in the repository. A lockfile records resolved dependency versions so another installation can reproduce them. Avoid switching managers casually or editing a lockfile by hand. Read the README, inspect scripts, install dependencies with the documented command, and run baseline checks before changing code.\n\nWhen a command fails, preserve its output and exit status. “It did not work” is too broad to guide a repair. “The test script invokes vitest, but that executable is missing after installation failed” identifies a specific dependency problem. A failing baseline is a setup issue to resolve before you interpret the deliberately failing mission tests.",
+      "chapterId": "v1-ch01",
+      "objectives": [
+        "Distinguish working, staged, and committed changes.",
+        "Diagnose a package script failure from its output."
+      ],
+      "estimatedMinutes": 7,
+      "workedExampleMarkdown": "~~~sh\ngit status --short\ngit diff\ngit add src/tickets.ts tests/tickets.test.ts\ngit diff --staged\ngit commit -m \"Reject blank ticket titles\"\n~~~\n\nStage a focused change only after inspecting it. The staged diff is what the commit records. A separate push is needed to send the commit to a remote.",
+      "commonMistakes": [
+        "Assuming git add commits a file.",
+        "Staging every changed file without inspecting unrelated work.",
+        "Treating “missing script” as a failed test assertion."
+      ],
+      "summary": "Inspect the working diff, stage the intended change, inspect the staged diff, and then commit. Read project scripts before running them.",
+      "exerciseIds": [
+        "v1-l02-e1",
+        "v1-l02-e2",
+        "v1-l02-e3"
+      ],
+      "reviewCardIds": [
+        "v1-l02-r1",
+        "v1-l02-r2"
+      ],
+      "references": [
+        "https://git-scm.com/docs/git-status",
+        "https://git-scm.com/docs/git-diff",
+        "https://docs.npmjs.com/cli/v11/using-npm/scripts"
+      ]
+    },
+    {
+      "kind": "lesson",
+      "id": "v1-l03",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Debug from evidence",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "A support ticket page crashes only when its optional assignee is missing. A productive investigation starts with what you can observe, not with the first plausible code change.\n\nA stack trace identifies where an error was thrown and the chain of calls that led there. Start with the error message and the first frame in your own code. A library frame may explain the mechanism, but it often is not where your application made the invalid assumption. The trace gives you a location to inspect; it does not establish the original cause by itself.\n\nReproduce the problem with known inputs. Record what you did, what you expected, and what actually happened. Then reduce the example while preserving the failure. If a hundred-ticket fixture fails, try one unassigned ticket. If a full page crashes, test the formatter that reads assignee.name. A minimal reproduction makes the hypothesis cheaper to test and easier to explain to somebody else.\n\nChoose a hypothesis that can be contradicted by evidence: “The formatter assumes assignee is always present.” Inspect the input at the failing boundary, or add a focused test using an unassigned ticket. If the test fails with the same error, you have strengthened the connection between the assumption and the defect. If it does not, check whether the reproduction omitted an important condition.\n\nFix the boundary where the assumption is made. If unassigned tickets are valid, represent that state explicitly and return an appropriate label. Do not swallow every exception in the page and pretend rendering succeeded. A broad catch may hide the evidence and leave the user looking at stale data.\n\nAfter the repair, test both the failing case and a normal assigned ticket. A regression test should fail with the original implementation and pass after the fix. That property is more useful than merely increasing the count of tests. Finally, remove temporary logs that contain personal data and leave a concise explanation of the defect and the evidence that confirmed it.",
+      "chapterId": "v1-ch01",
+      "objectives": [
+        "Read a stack trace to locate an application assumption.",
+        "Design a minimal reproduction and a regression case."
+      ],
+      "estimatedMinutes": 7,
+      "workedExampleMarkdown": "~~~text\nTypeError: Cannot read properties of null (reading 'name')\n  at assigneeLabel (src/ticket-view.ts:12:28)\n  at renderTicket (src/ticket-view.ts:34:9)\n~~~\n\nInspect the input passed to assigneeLabel. A fixture with assignee: null is a smaller reproduction than the entire dashboard. Test a null assignee and an assigned ticket before considering the repair complete.",
+      "commonMistakes": [
+        "Changing several unrelated components before reproducing the failure.",
+        "Assuming the top library stack frame is the root cause.",
+        "Catching and ignoring every error instead of handling the supported empty state."
+      ],
+      "summary": "Use a reproducible observation, a falsifiable hypothesis, a small test, and a repair at the failing boundary.",
+      "exerciseIds": [
+        "v1-l03-e1",
+        "v1-l03-e2",
+        "v1-l03-e3"
+      ],
+      "reviewCardIds": [
+        "v1-l03-r1",
+        "v1-l03-r2"
+      ],
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/stack"
+      ]
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l01-e1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Trace the request path",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply web.request-lifecycle in a support-desk workflow.",
+      "lessonId": "v1-l01",
+      "type": "choice",
+      "difficulty": "foundation",
+      "primaryConceptId": "web.request-lifecycle",
+      "cognitiveLevel": "recognize",
+      "promptMarkdown": "An agent clicks a ticket. Which sequence correctly describes the request and response?",
+      "hints": [
+        "Start at the click in the browser.",
+        "The server must decide whether the requested data is available.",
+        "Put the response after the server checks and before the client renders."
+      ],
+      "solution": {
+        "modelAnswer": "The browser sends a request to the API. The server checks access, reads data, and returns a response for the browser to render.",
+        "explanationMarkdown": "The browser sends a request to the API. The server checks access, reads data, and returns a response for the browser to render."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Browser → API route → access check and data read → response → render",
+            "explanation": "The client initiates a request; the server checks access before returning data."
+          },
+          {
+            "id": "option-2",
+            "text": "Browser → database with its password → render",
+            "explanation": "Database credentials belong on the server; direct access skips the API boundary."
+          },
+          {
+            "id": "option-3",
+            "text": "Server renders first → browser sends its request",
+            "explanation": "The response follows the request in this interaction."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l01-e2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Find the response body",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply web.request-lifecycle in a support-desk workflow.",
+      "lessonId": "v1-l01",
+      "type": "code-reading",
+      "difficulty": "foundation",
+      "primaryConceptId": "web.request-lifecycle",
+      "cognitiveLevel": "apply",
+      "promptMarkdown": "A trace shows GET /tickets/42; status 200; Content-Type: application/json; {\"title\":\"Printer offline\"}. Which part is the response body?",
+      "hints": [
+        "A body carries the resource representation.",
+        "Headers describe the representation, while status reports the outcome.",
+        "Find the returned JSON object."
+      ],
+      "solution": {
+        "modelAnswer": "The JSON object is the response body. The browser parses it to get the ticket title.",
+        "explanationMarkdown": "The JSON object is the response body. The browser parses it to get the ticket title."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "{\"title\":\"Printer offline\"}",
+            "explanation": "This JSON object is the returned representation."
+          },
+          {
+            "id": "option-2",
+            "text": "GET /tickets/42",
+            "explanation": "That is the request method and path."
+          },
+          {
+            "id": "option-3",
+            "text": "200",
+            "explanation": "That is the response status, not its body."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l01-e3",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Place the ownership check",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply web.request-lifecycle in a support-desk workflow.",
+      "lessonId": "v1-l01",
+      "type": "explanation",
+      "difficulty": "foundation",
+      "primaryConceptId": "web.request-lifecycle",
+      "cognitiveLevel": "explain",
+      "promptMarkdown": "A developer hides Edit for tickets owned by someone else. Explain where an authoritative ownership check must also happen, and why.",
+      "hints": [
+        "Consider a request sent without using this screen.",
+        "The API can be called by another client.",
+        "Explain server enforcement separately from a convenient hidden button."
+      ],
+      "solution": {
+        "modelAnswer": "The server must check the authenticated identity against the ticket owner. A direct request can bypass the hidden button.",
+        "explanationMarkdown": "The server must check the authenticated identity against the ticket owner. A direct request can bypass the hidden button."
+      },
+      "grading": {
+        "kind": "rubric",
+        "criteria": [
+          "Identify the API/server boundary.",
+          "Explain how a direct request bypasses hidden UI.",
+          "Preserve the client check as presentation feedback."
+        ],
+        "modelAnswer": "The server must check the authenticated identity against the requested ticket’s owner before reading or changing protected data. Hiding Edit improves the interface but cannot prevent a direct request."
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l02-e1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Read working tree status",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.git-and-scripts in a support-desk workflow.",
+      "lessonId": "v1-l02",
+      "type": "choice",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.git-and-scripts",
+      "cognitiveLevel": "recognize",
+      "promptMarkdown": "git status says src/tickets.ts is modified but not staged. What does that tell you?",
+      "hints": [
+        "Separate editor saves from Git snapshots.",
+        "The staging area controls the next commit.",
+        "Unstaged edits remain outside the proposed snapshot."
+      ],
+      "solution": {
+        "modelAnswer": "The working file changed, but the next commit does not include those edits until they are staged.",
+        "explanationMarkdown": "The working file changed, but the next commit does not include those edits until they are staged."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "The file has working-tree edits that will not enter the next commit yet.",
+            "explanation": "Only staged content becomes part of the next commit."
+          },
+          {
+            "id": "option-2",
+            "text": "The change is already committed.",
+            "explanation": "Modified and unstaged describes uncommitted working-tree content."
+          },
+          {
+            "id": "option-3",
+            "text": "The remote repository already contains the edit.",
+            "explanation": "Status does not imply that anything has been pushed."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l02-e2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Choose a focused commit sequence",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.git-and-scripts in a support-desk workflow.",
+      "lessonId": "v1-l02",
+      "type": "choice",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.git-and-scripts",
+      "cognitiveLevel": "apply",
+      "promptMarkdown": "You changed a title validator and its test. An unrelated experiment is also modified. Which sequence best preserves a focused commit?",
+      "hints": [
+        "Find the intended behavior change.",
+        "Stage the files that implement and verify that change.",
+        "Inspect the staged diff before recording the commit."
+      ],
+      "solution": {
+        "modelAnswer": "Inspect and stage only the validator and its regression test, then review the staged diff before committing.",
+        "explanationMarkdown": "Inspect and stage only the validator and its regression test, then review the staged diff before committing."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Inspect diff; stage validator and test; inspect staged diff; commit.",
+            "explanation": "This reviews the intended change and keeps unrelated work outside the commit."
+          },
+          {
+            "id": "option-2",
+            "text": "Stage everything; commit; inspect later.",
+            "explanation": "That may include unrelated edits before you notice them."
+          },
+          {
+            "id": "option-3",
+            "text": "Delete the lockfile; commit the entire folder.",
+            "explanation": "The lockfile is unrelated to the behavior and should be preserved."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l02-e3",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Diagnose a missing script",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.git-and-scripts in a support-desk workflow.",
+      "lessonId": "v1-l02",
+      "type": "debug",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.git-and-scripts",
+      "cognitiveLevel": "debug",
+      "promptMarkdown": "package.json contains scripts: {\"test\":\"vitest run\"}. pnpm check exits with “Missing script: check”. What should you inspect or change first?",
+      "hints": [
+        "Read the exact command name in the error.",
+        "Compare it with the keys in package.json scripts.",
+        "The configured command is test, not check."
+      ],
+      "solution": {
+        "modelAnswer": "The failure is at script lookup. Run pnpm test or add an intentionally defined check script; do not infer a product defect from a command that never ran tests.",
+        "explanationMarkdown": "The failure is at script lookup. Run pnpm test or add an intentionally defined check script; do not infer a product defect from a command that never ran tests."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Use the documented test script or define the intended check script.",
+            "explanation": "The package manager could not find the named script; no test assertion ran."
+          },
+          {
+            "id": "option-2",
+            "text": "Rewrite the title validation function.",
+            "explanation": "The function has not been tested by this command."
+          },
+          {
+            "id": "option-3",
+            "text": "Ignore the exit code because dependencies installed.",
+            "explanation": "Installation success does not make a missing command valid."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l03-e1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Locate the failing assumption",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.debugging in a support-desk workflow.",
+      "lessonId": "v1-l03",
+      "type": "code-reading",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.debugging",
+      "cognitiveLevel": "debug",
+      "promptMarkdown": "A trace points to assigneeLabel in src/ticket-view.ts, where ticket.assignee.name is read. The error says null has no name property. What should you inspect first?",
+      "hints": [
+        "The error identifies the missing receiver of a property read.",
+        "The own-code frame points to assigneeLabel.",
+        "Inspect whether assignee can be null in the actual ticket."
+      ],
+      "solution": {
+        "modelAnswer": "Inspect the assignee field on the input ticket and whether null is a supported domain state.",
+        "explanationMarkdown": "Inspect the assignee field on the input ticket and whether null is a supported domain state."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "The ticket.assignee value passed into assigneeLabel.",
+            "explanation": "The access assumes that value is present; inspect the relevant input boundary."
+          },
+          {
+            "id": "option-2",
+            "text": "The CSS color of the ticket title.",
+            "explanation": "Styling cannot explain a property read from null."
+          },
+          {
+            "id": "option-3",
+            "text": "Every installed dependency version at once.",
+            "explanation": "The trace already gives a focused starting point in application code."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l03-e2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Choose the next experiment",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.debugging in a support-desk workflow.",
+      "lessonId": "v1-l03",
+      "type": "choice",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.debugging",
+      "cognitiveLevel": "apply",
+      "promptMarkdown": "The crash happens with a fixture of 100 tickets. One has assignee: null. Which experiment most directly tests the suspected cause?",
+      "hints": [
+        "Keep the suspected input and remove irrelevant records.",
+        "Test the smallest function that reads the field.",
+        "Use a one-ticket fixture with a null assignee."
+      ],
+      "solution": {
+        "modelAnswer": "Call the formatter with the unassigned ticket, then compare with an assigned ticket.",
+        "explanationMarkdown": "Call the formatter with the unassigned ticket, then compare with an assigned ticket."
+      },
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Call the formatter with just the unassigned ticket.",
+            "explanation": "A smaller reproduction isolates the null assumption while preserving the failure."
+          },
+          {
+            "id": "option-2",
+            "text": "Rewrite the router and refresh repeatedly.",
+            "explanation": "Multiple unrelated changes make the hypothesis harder to evaluate."
+          },
+          {
+            "id": "option-3",
+            "text": "Catch every exception and show a blank label.",
+            "explanation": "This hides evidence before establishing the cause or intended behavior."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "exercise",
+      "id": "v1-l03-e3",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Explain the regression test",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply workflow.debugging in a support-desk workflow.",
+      "lessonId": "v1-l03",
+      "type": "explanation",
+      "difficulty": "foundation",
+      "primaryConceptId": "workflow.debugging",
+      "cognitiveLevel": "explain",
+      "promptMarkdown": "You fixed the formatter to return “Unassigned” for a null assignee. Describe two regression cases and explain how you know the test detects the original defect.",
+      "hints": [
+        "Cover the input that triggered the crash.",
+        "Preserve the existing behavior for an assigned ticket.",
+        "Show that reverting the repair causes the regression case to fail."
+      ],
+      "solution": {
+        "modelAnswer": "Test null → Unassigned and a present name → that name. The null case must fail with the original code and pass with the repair.",
+        "explanationMarkdown": "Test null → Unassigned and a present name → that name. The null case must fail with the original code and pass with the repair."
+      },
+      "grading": {
+        "kind": "rubric",
+        "criteria": [
+          "Include a null assignee and the expected Unassigned label.",
+          "Include a present assignee and its normal label.",
+          "State that the null case fails against the original implementation."
+        ],
+        "modelAnswer": "Test null → Unassigned and {name:\"Mara\"} → Mara. Running the null case against the original property access must throw or fail the expected output; the repaired implementation should pass both."
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l01-r1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Follow a browser request · Recall",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "What separates the request path, response status, and response body?",
+      "lessonId": "v1-l01",
+      "type": "recall",
+      "promptMarkdown": "What separates the request path, response status, and response body?",
+      "answer": "The path identifies the requested resource. The status reports the outcome. The body carries the returned representation.",
+      "explanation": "Inspect each boundary separately: input, request, server decision, response, and rendering.",
+      "gradingOrigin": "self_reported",
+      "primaryConceptId": "web.request-lifecycle",
+      "grading": {
+        "kind": "rubric",
+        "criteria": [
+          "Recall the mechanism without looking at the lesson.",
+          "Explain when it matters in the example."
+        ],
+        "modelAnswer": "The path identifies the requested resource. The status reports the outcome. The body carries the returned representation."
+      }
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l01-r2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Follow a browser request · Transfer",
+      "conceptIds": [
+        "web.request-lifecycle"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "The API returns valid ticket JSON but the page is blank. What boundary should you inspect next?",
+      "lessonId": "v1-l01",
+      "type": "transfer",
+      "promptMarkdown": "The API returns valid ticket JSON but the page is blank. What boundary should you inspect next?",
+      "answer": "Client parsing, state update, and render",
+      "explanation": "The response is present, so inspect how the browser consumes it.",
+      "gradingOrigin": "server_objective",
+      "primaryConceptId": "web.request-lifecycle",
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Client parsing, state update, and render",
+            "explanation": "The response is present, so inspect how the browser consumes it."
+          },
+          {
+            "id": "option-2",
+            "text": "The database password first",
+            "explanation": "A successful API response does not point first to missing database credentials."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      }
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l02-r1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Use Git and project commands · Recall",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "What is the difference between a working-tree edit, a staged edit, and a commit?",
+      "lessonId": "v1-l02",
+      "type": "recall",
+      "promptMarkdown": "What is the difference between a working-tree edit, a staged edit, and a commit?",
+      "answer": "Working-tree edits are files being changed; staged edits form the next snapshot; a commit records that snapshot in history.",
+      "explanation": "Inspect the working diff, stage the intended change, inspect the staged diff, and then commit. Read project scripts before running them.",
+      "gradingOrigin": "self_reported",
+      "primaryConceptId": "workflow.git-and-scripts",
+      "grading": {
+        "kind": "rubric",
+        "criteria": [
+          "Recall the mechanism without looking at the lesson.",
+          "Explain when it matters in the example."
+        ],
+        "modelAnswer": "Working-tree edits are files being changed; staged edits form the next snapshot; a commit records that snapshot in history."
+      }
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l02-r2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Use Git and project commands · Transfer",
+      "conceptIds": [
+        "workflow.git-and-scripts"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Your staged diff contains a debug token and the title fix. What should happen before committing?",
+      "lessonId": "v1-l02",
+      "type": "transfer",
+      "promptMarkdown": "Your staged diff contains a debug token and the title fix. What should happen before committing?",
+      "answer": "Remove the secret from the proposed change and review again",
+      "explanation": "Review before commit prevents accidental inclusion.",
+      "gradingOrigin": "server_objective",
+      "primaryConceptId": "workflow.git-and-scripts",
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "Remove the secret from the proposed change and review again",
+            "explanation": "Review before commit prevents accidental inclusion."
+          },
+          {
+            "id": "option-2",
+            "text": "Commit first because secrets can never leave a local machine",
+            "explanation": "Commits can be pushed or copied; this assumption is unsafe."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      }
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l03-r1",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Debug from evidence · Recall",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "How does a minimal reproduction help test a debugging hypothesis?",
+      "lessonId": "v1-l03",
+      "type": "recall",
+      "promptMarkdown": "How does a minimal reproduction help test a debugging hypothesis?",
+      "answer": "It removes unrelated conditions while preserving the failure, making a specific hypothesis easier to confirm or disprove.",
+      "explanation": "Use a reproducible observation, a falsifiable hypothesis, a small test, and a repair at the failing boundary.",
+      "gradingOrigin": "self_reported",
+      "primaryConceptId": "workflow.debugging",
+      "grading": {
+        "kind": "rubric",
+        "criteria": [
+          "Recall the mechanism without looking at the lesson.",
+          "Explain when it matters in the example."
+        ],
+        "modelAnswer": "It removes unrelated conditions while preserving the failure, making a specific hypothesis easier to confirm or disprove."
+      }
+    },
+    {
+      "kind": "review_card",
+      "id": "v1-l03-r2",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Debug from evidence · Transfer",
+      "conceptIds": [
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "A new test passes both before and after the repair. Does that prove it detects the reported defect?",
+      "lessonId": "v1-l03",
+      "type": "transfer",
+      "promptMarkdown": "A new test passes both before and after the repair. Does that prove it detects the reported defect?",
+      "answer": "No; it may not exercise the failing condition",
+      "explanation": "A regression check needs to reject the original defective behavior.",
+      "gradingOrigin": "server_objective",
+      "primaryConceptId": "workflow.debugging",
+      "grading": {
+        "kind": "choice",
+        "multiple": false,
+        "options": [
+          {
+            "id": "option-1",
+            "text": "No; it may not exercise the failing condition",
+            "explanation": "A regression check needs to reject the original defective behavior."
+          },
+          {
+            "id": "option-2",
+            "text": "Yes; every passing test proves the bug was fixed",
+            "explanation": "Passing alone says nothing about whether the original defect is detected."
+          }
+        ],
+        "correctIds": [
+          "option-1"
+        ]
+      }
+    },
+    {
+      "kind": "assessment",
+      "id": "v1-ch01-placement",
+      "version": 1,
+      "masteryRevision": 1,
+      "title": "Web workflow placement",
+      "conceptIds": [
+        "web.request-lifecycle",
+        "workflow.git-and-scripts",
+        "workflow.debugging"
+      ],
+      "prerequisiteIds": [],
+      "bodyMarkdown": "Apply request, Git, and debugging knowledge to unfamiliar examples.",
+      "chapterId": "v1-ch01",
+      "qualification": {
+        "minCorrect": 4,
+        "requireCritical": true
+      },
+      "items": [
+        {
+          "id": "v1-ch01-p1",
+          "title": "Read a wire trace",
+          "objectiveIds": [
+            "web.request-lifecycle"
+          ],
+          "critical": true,
+          "type": "code-reading",
+          "difficulty": "foundation",
+          "primaryConceptId": "web.request-lifecycle",
+          "cognitiveLevel": "apply",
+          "promptMarkdown": "A response has status 403 and a JSON error body. Which interpretation is justified?",
+          "hints": [
+            "Inspect the relevant boundary.",
+            "Use the evidence in the prompt.",
+            "Choose the option supported by the trace."
+          ],
+          "solution": {
+            "modelAnswer": "The server rejected access; the body may explain the failure.",
+            "explanationMarkdown": "Status and body are distinct parts of an HTTP response."
+          },
+          "grading": {
+            "kind": "choice",
+            "multiple": false,
+            "options": [
+              {
+                "id": "option-1",
+                "text": "The server rejected access; the body may explain the failure.",
+                "explanation": "Status and body are distinct parts of an HTTP response."
+              },
+              {
+                "id": "option-2",
+                "text": "The browser never made a request.",
+                "explanation": "A received response means a request reached a responder."
+              },
+              {
+                "id": "option-3",
+                "text": "The database must have lost all tickets.",
+                "explanation": "Access rejection does not establish data loss."
+              }
+            ],
+            "correctIds": [
+              "option-1"
+            ]
+          },
+          "estimatedMinutes": 4
+        },
+        {
+          "id": "v1-ch01-p2",
+          "title": "Locate validation authority",
+          "objectiveIds": [
+            "web.request-lifecycle"
+          ],
+          "critical": true,
+          "type": "code-reading",
+          "difficulty": "foundation",
+          "primaryConceptId": "web.request-lifecycle",
+          "cognitiveLevel": "apply",
+          "promptMarkdown": "A phone client submits a whitespace-only ticket title while the web form blocks it. Where must the rule be enforced for both clients?",
+          "hints": [
+            "Inspect the relevant boundary.",
+            "Use the evidence in the prompt.",
+            "Choose the option supported by the trace."
+          ],
+          "solution": {
+            "modelAnswer": "At the API boundary before persistence.",
+            "explanationMarkdown": "All clients must meet the same server-side contract."
+          },
+          "grading": {
+            "kind": "choice",
+            "multiple": false,
+            "options": [
+              {
+                "id": "option-1",
+                "text": "At the API boundary before persistence.",
+                "explanation": "All clients must meet the same server-side contract."
+              },
+              {
+                "id": "option-2",
+                "text": "Only in the web form submit button.",
+                "explanation": "The phone client bypasses that interface."
+              }
+            ],
+            "correctIds": [
+              "option-1"
+            ]
+          },
+          "estimatedMinutes": 4
+        },
+        {
+          "id": "v1-ch01-p3",
+          "title": "Inspect the commit snapshot",
+          "objectiveIds": [
+            "workflow.git-and-scripts"
+          ],
+          "critical": false,
+          "type": "code-reading",
+          "difficulty": "foundation",
+          "primaryConceptId": "workflow.git-and-scripts",
+          "cognitiveLevel": "apply",
+          "promptMarkdown": "You staged a file, then edited it again. Which diff shows exactly what the next commit will contain?",
+          "hints": [
+            "Inspect the relevant boundary.",
+            "Use the evidence in the prompt.",
+            "Choose the option supported by the trace."
+          ],
+          "solution": {
+            "modelAnswer": "git diff --staged",
+            "explanationMarkdown": "The index holds the next snapshot."
+          },
+          "grading": {
+            "kind": "choice",
+            "multiple": false,
+            "options": [
+              {
+                "id": "option-1",
+                "text": "git diff --staged",
+                "explanation": "The index holds the next snapshot."
+              },
+              {
+                "id": "option-2",
+                "text": "Only opening the working file in the editor",
+                "explanation": "The working file includes later edits that may be unstaged."
+              }
+            ],
+            "correctIds": [
+              "option-1"
+            ]
+          },
+          "estimatedMinutes": 4
+        },
+        {
+          "id": "v1-ch01-p4",
+          "title": "Separate setup from behavior",
+          "objectiveIds": [
+            "workflow.git-and-scripts"
+          ],
+          "critical": false,
+          "type": "code-reading",
+          "difficulty": "foundation",
+          "primaryConceptId": "workflow.git-and-scripts",
+          "cognitiveLevel": "apply",
+          "promptMarkdown": "The command fails with “vitest: command not found” before printing any test names. Which next step fits the evidence?",
+          "hints": [
+            "Inspect the relevant boundary.",
+            "Use the evidence in the prompt.",
+            "Choose the option supported by the trace."
+          ],
+          "solution": {
+            "modelAnswer": "Verify dependency installation and the documented script environment.",
+            "explanationMarkdown": "The runner did not start, so resolve setup before interpreting product behavior."
+          },
+          "grading": {
+            "kind": "choice",
+            "multiple": false,
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Verify dependency installation and the documented script environment.",
+                "explanation": "The runner did not start, so resolve setup before interpreting product behavior."
+              },
+              {
+                "id": "option-2",
+                "text": "Accept that the title validator returned the wrong value.",
+                "explanation": "There is no assertion result supporting that conclusion."
+              }
+            ],
+            "correctIds": [
+              "option-1"
+            ]
+          },
+          "estimatedMinutes": 4
+        },
+        {
+          "id": "v1-ch01-p5",
+          "title": "Design a useful reproduction",
+          "objectiveIds": [
+            "workflow.debugging"
+          ],
+          "critical": true,
+          "type": "code-reading",
+          "difficulty": "foundation",
+          "primaryConceptId": "workflow.debugging",
+          "cognitiveLevel": "debug",
+          "promptMarkdown": "A total calculation crashes on an empty list. Which test pair best checks the repair?",
+          "hints": [
+            "Inspect the relevant boundary.",
+            "Use the evidence in the prompt.",
+            "Choose the option supported by the trace."
+          ],
+          "solution": {
+            "modelAnswer": "Empty list returns the documented identity; a nonempty list still totals correctly.",
+            "explanationMarkdown": "This covers the failure and preserves normal behavior."
+          },
+          "grading": {
+            "kind": "choice",
+            "multiple": false,
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Empty list returns the documented identity; a nonempty list still totals correctly.",
+                "explanation": "This covers the failure and preserves normal behavior."
+              },
+              {
+                "id": "option-2",
+                "text": "Two large nonempty lists that already passed.",
+                "explanation": "These can miss the empty-input defect entirely."
+              }
+            ],
+            "correctIds": [
+              "option-1"
+            ]
+          },
+          "estimatedMinutes": 4
+        }
+      ]
+    }
+  ],
+  "assets": []
+}

@@ -1,0 +1,32 @@
+import pg from '../.tools/postgres/node_modules/pg/lib/index.js';
+import {spawn} from 'node:child_process';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+const password='disposable-local-test-only';
+const config={host:'127.0.0.1',port:5439,user:'devpractice_test',password,database:'devpractice_test',connectionTimeoutMillis:5000};
+const bin=process.env.PG_BIN??'C:/Program Files/PostgreSQL/18/bin';
+const backup=path.resolve('.data/restore-check.dump');
+const restored='devpractice_restore_'+Date.now();
+const run=(exe,args,database)=>new Promise((resolve,reject)=>{const child=spawn(path.join(bin,exe+(process.platform==='win32'?'.exe':'')),args,{windowsHide:true,env:{...process.env,PGHOST:config.host,PGPORT:'5439',PGUSER:config.user,PGPASSWORD:password,PGDATABASE:database},stdio:['ignore','pipe','pipe']});let errors='';child.stderr.on('data',chunk=>errors+=chunk.toString());child.on('close',code=>code===0?resolve():reject(new Error(exe+' failed: '+errors)));child.on('error',reject);});
+const client=new pg.Client(config);await client.connect();await mkdir('.data',{recursive:true});
+const admin=new pg.Client(config);await admin.connect();
+await admin.query('CREATE DATABASE '+admin.escapeIdentifier(restored));await admin.end();
+await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ');
+const snapshot=(await client.query('SELECT pg_export_snapshot() AS id')).rows[0].id;
+await run('pg_dump',['--format=custom','--snapshot='+snapshot,'--file='+backup],config.database);
+await run('pg_restore',['--exit-on-error','--no-owner','--dbname='+restored,backup],restored);
+const other=new pg.Client({...config,database:restored});await other.connect();
+const tables=(await client.query("SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename")).rows;
+const counts=[];
+for(const {tablename} of tables){
+const sql='SELECT to_jsonb(t)::text AS row FROM '+client.escapeIdentifier(tablename)+' t ORDER BY to_jsonb(t)::text';
+const a=(await client.query(sql)).rows,b=(await other.query(sql)).rows;
+const hash=rows=>createHash('sha256').update(JSON.stringify(rows)).digest('hex');
+const originalHash=hash(a),restoredHash=hash(b);
+if(originalHash!==restoredHash)throw new Error('Data mismatch: '+tablename);
+counts.push({table:tablename,original:a.length,restored:b.length,sha256:originalHash});
+}
+await client.query('COMMIT');await other.end();await client.end();
+await writeFile('docs/backup-verification.json',JSON.stringify({checkedAt:new Date().toISOString(),database:restored,snapshot,tables:counts},null,2));
+console.log('Restored PostgreSQL backup into '+restored+'; all rows in '+counts.length+' tables match the exported snapshot. Synthetic backup retained under .data.');

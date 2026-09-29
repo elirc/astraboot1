@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-09-10T00:17:27.842Z",
+  "node": "v24.21.0",
+  "database": "PostgreSQL 18.1 on x86_64-windows, compiled by msvc-19.44.35221, 64-bit",
+  "fixture": {
+    "chapters": 334,
+    "lessons": 1002,
+    "exercises": 10000,
+    "attempts": 10000
+  },
+  "method": "Optimizer statistics refreshed; two warmups then ten sequential Fastify requests per route; wall-clock includes database calls. Today uses progress, curriculum, and activity.",
+  "limitations": [
+    "Synthetic database fixture bypasses the 2,000-item import limit to isolate read-path scaling. It is not a publishable curriculum package.",
+    "One synthetic attempt per exercise; no concurrent users. Host also runs unrelated applications."
+  ],
+  "results": [
+    {
+      "route": "/curriculum",
+      "responseBytes": 20492,
+      "samples": 10,
+      "p50Ms": 847,
+      "p95Ms": 2195,
+      "targetMs": 500,
+      "withinTarget": false
+    },
+    {
+      "route": "/progress",
+      "responseBytes": 11049,
+      "samples": 10,
+      "p50Ms": 6947,
+      "p95Ms": 10552,
+      "targetMs": 500,
+      "withinTarget": false
+    },
+    {
+      "route": "/activity",
+      "responseBytes": 38,
+      "samples": 10,
+      "p50Ms": 143,
+      "p95Ms": 576,
+      "targetMs": 500,
+      "withinTarget": false
+    },
+    {
+      "route": "/lessons/scale-c00496b4-l0000",
+      "responseBytes": 3219,
+      "samples": 10,
+      "p50Ms": 567,
+      "p95Ms": 967,
+      "targetMs": 500,
+      "withinTarget": false
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+﻿[
+    {
+        "archive":  "m01-starter-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  23,
+        "bytes":  111478,
+        "checksum":  "628a0ab6fc40fe6c797756614388f159cb35b56e25fe2ac76f239838025957ce",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  23,
+        "bytes":  116315,
+        "checksum":  "718c4cae436b3ac8130c638c7060460488dc99629903f3a9ca0dda9112c3b239",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  37,
+        "bytes":  130433,
+        "checksum":  "222a8a0848a0150be27db28f2ecad52e7214ab7b66caa080d0c53e87a3677da3",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  37,
+        "bytes":  133042,
+        "checksum":  "a671e56ffd6273becb881b0d9d467ee07471f823306fc97899a4e40191705e03",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  37,
+        "bytes":  133129,
+        "checksum":  "d4b6f4f90f9c5c76ba856aa3a26ff5df592a33254cd9aa676b2eeeedfccbf303",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v6.zip",
+        "assetVersion":  "v6",
+        "current":  true,
+        "entries":  37,
+        "bytes":  133037,
+        "checksum":  "b8ba79759f3513f349f3d7902f7898a20ea9673ec06f690fe48d8401200ccae2",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-starter-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  23,
+        "bytes":  181764,
+        "checksum":  "cadf663a4396eb01b0f3231048ff9c7365f8d00526d2040cb7c6a700a490696e",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  23,
+        "bytes":  186601,
+        "checksum":  "6c938b285305aad2a698d135088a164a202d763ed4f6cd6c3bb8e93bb5c4d6e2",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  37,
+        "bytes":  200734,
+        "checksum":  "048ea59639ea1e56214c08984918ff73a5660ebd6cfbbf343fb265c4fa454949",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203343,
+        "checksum":  "8647b6e3911d78e1e18fd4d31ed61fea6b64b8e691752cc6be5e8c1cf51625ed",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203430,
+        "checksum":  "7b9bacd7082049ca3695c9b281c3344364db54c4e353e51d104556528a6d44a5",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v1.zip",
+        "assetVersion":  "v1",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203338,
+        "checksum":  "5e20d8f42f5f35de291baef475884965f9b98324c011820fd6e11b47363e91f8",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-starter-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  23,
+        "bytes":  182013,
+        "checksum":  "719baa70f4cd7b4838d7816d1dd570cbe655fa2a5c6c7b145df9757246890645",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  23,
+        "bytes":  186850,
+        "checksum":  "753cd0b8695eb9a62440e3a7a59e13da150089400530563e4868fcbc31fe370b",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  37,
+        "bytes":  200965,
+        "checksum":  "d3f233cdcf7a85c5c0e95aeaa404ea4621112c2fa1250ddeea7f3c33a9a094cf",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203574,
+        "checksum":  "c273212a067aec203b99245bf29ee95961fb4fa39e675a15855a52d0f62b6e77",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203661,
+        "checksum":  "467978dd6ac5ef705a7df5418d19a09cb09f6f03b3834b09d21ce93ed2e74de3",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v2.zip",
+        "assetVersion":  "v2",
+        "current":  false,
+        "entries":  37,
+        "bytes":  203569,
+        "checksum":  "6512dd1a8b7335e6a6ed2314f802a6ab1439d3dd6e955cbd805d588e8985e0f6",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-starter-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  23,
+        "bytes":  110729,
+        "checksum":  "8632689eb2a67b1dbafceab1aed34450a381b1c428d1ef0b71dec6a1a4c01bce",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  23,
+        "bytes":  115566,
+        "checksum":  "7327febb997992c0cf128e6d4293555c6ad40971708010da86bd84023ac7c36d",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  37,
+        "bytes":  129684,
+        "checksum":  "1ef49a60a845e8af09c69560abae0cf532de3f795128268f946e07995a28dc12",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132293,
+        "checksum":  "f7e94a7ff70f237cb7facf3d86fee7f3ab51e8a49dc31ac554d55555fa4082a5",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132380,
+        "checksum":  "80dafe165ac3ce17a5f503c2ce2dae1305e7d201692861b20ea505cc5f6b746a",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v3.zip",
+        "assetVersion":  "v3",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132288,
+        "checksum":  "002b57dafda88f2f08f8d66a8ccd576bfc1452b765c5e3288b2ea1799656e4ad",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-starter-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  23,
+        "bytes":  110734,
+        "checksum":  "cfcf13dd6fb762f35ea7ba54c5a9ba277eb234f043ca4e9b804394061b2d57ea",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  23,
+        "bytes":  115571,
+        "checksum":  "e79744be7a29ad34648acdf9e4bf0b426b689df1f4b851d3f7c4b718909c2001",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  37,
+        "bytes":  129689,
+        "checksum":  "476fd6e5ca44c275e1e53884d59e6542e34a276a291aa5f43c32428ca0888c69",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132298,
+        "checksum":  "445209d82f8da52a27e44511ea8494afa20ad828e0a8abfe0c764aec32caa814",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132385,
+        "checksum":  "32962d893119ec5b0bc44ecc3270d7efcc7c4c2e1399a0550d0617b7f1f35f5a",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v4.zip",
+        "assetVersion":  "v4",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132293,
+        "checksum":  "a32042e20e0992321bdba1e8e3c298035b038026d54eb053c95821a8cb0e747c",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-starter-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  23,
+        "bytes":  110857,
+        "checksum":  "2216d3ac1e0470fb0cdea866c2ec6bcbf23cac48926537b3ff035aa2ab37f3e0",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m01-reference-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  23,
+        "bytes":  115694,
+        "checksum":  "7b68c217bfb20543c22dd4d536fe7500edd5b21ab3ca385be924cc482d9b07cc",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-starter-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  37,
+        "bytes":  129812,
+        "checksum":  "9a666c43b97a32e6fc10878a6db65f65bdf73c4d3adb08c0bf56073bf8c61075",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m02-reference-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132421,
+        "checksum":  "baf54fad3557de20767b3eb8cf24598ba02ab8b995384d5bdf377d45178d92cd",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-starter-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132508,
+        "checksum":  "2426561c5d97a2a47553e190eb5740d4e68fa83695a565ef005057bb527be956",
+        "standardZipReader":  "passed"
+    },
+    {
+        "archive":  "m03-reference-v5.zip",
+        "assetVersion":  "v5",
+        "current":  false,
+        "entries":  37,
+        "bytes":  132416,
+        "checksum":  "52c597fb0dd21e6789cdb123067524fd8632b5e1f38ee18b8d95d55f4da45aeb",
+        "standardZipReader":  "passed"
+    }
+]

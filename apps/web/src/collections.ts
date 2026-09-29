@@ -1,0 +1,4 @@
+import {useInfiniteQuery,useQuery} from '@tanstack/react-query';
+import {envelope,api} from './api';
+export function usePages<T>(key:string,path:string){const query=useInfiniteQuery({queryKey:[key,path],initialPageParam:'',queryFn:({pageParam})=>envelope<T[]>(path+(path.includes('?')?'&':'?')+'limit=20'+(pageParam?'&cursor='+encodeURIComponent(pageParam):'')),getNextPageParam:last=>last.meta?.nextCursor??undefined});return {...query,rows:query.data?.pages.flatMap(p=>p.data)??[],meta:query.data?.pages[0]?.meta};}
+export function useDateFormat(){const q=useQuery({queryKey:['settings'],queryFn:()=>api<{timezone:string}>('/settings')});return (value:string,dateOnly=false)=>new Intl.DateTimeFormat(undefined,{timeZone:q.data?.timezone??'UTC',dateStyle:'medium',...(dateOnly?{}:{timeStyle:'short' as const})}).format(new Date(value));}

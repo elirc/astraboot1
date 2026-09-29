@@ -1,0 +1,3 @@
+# Preserve exact authored bytes and immutable mission archive inputs across checkouts.
+# Formatting is explicit through Prettier; Git must not rewrite release inputs.
+* -text

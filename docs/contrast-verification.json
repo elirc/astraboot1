@@ -1,0 +1,202 @@
+{
+  "checkedAt": "2026-09-09T20:53:20.815Z",
+  "scope": "Authored theme token contrast; not a complete WCAG conformance audit",
+  "sources": [
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+  ],
+  "checks": [
+    {
+      "theme": "light",
+      "foreground": "text",
+      "background": "bg",
+      "ratio": 14.02,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "text",
+      "background": "surface",
+      "ratio": 15.03,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "muted",
+      "background": "bg",
+      "ratio": 5.66,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "muted",
+      "background": "surface",
+      "ratio": 6.07,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "accent",
+      "background": "surface",
+      "ratio": 6.78,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "surface",
+      "background": "accent",
+      "ratio": 6.78,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "error",
+      "background": "surface",
+      "ratio": 7.23,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "code-text",
+      "background": "code",
+      "ratio": 13.01,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "control-border",
+      "background": "surface",
+      "ratio": 4.09,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "control-border",
+      "background": "bg",
+      "ratio": 3.82,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "control-border",
+      "background": "surface-soft",
+      "ratio": 3.67,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "foreground": "accent",
+      "background": "bg",
+      "ratio": 6.33,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "text",
+      "background": "bg",
+      "ratio": 15.74,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "text",
+      "background": "surface",
+      "ratio": 14.16,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "muted",
+      "background": "bg",
+      "ratio": 9.33,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "muted",
+      "background": "surface",
+      "ratio": 8.39,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "accent",
+      "background": "surface",
+      "ratio": 9.89,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "surface",
+      "background": "accent",
+      "ratio": 9.89,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "error",
+      "background": "surface",
+      "ratio": 9.37,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "code-text",
+      "background": "code",
+      "ratio": 14.55,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "control-border",
+      "background": "surface",
+      "ratio": 4.25,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "control-border",
+      "background": "bg",
+      "ratio": 4.73,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "control-border",
+      "background": "surface-soft",
+      "ratio": 3.72,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "accent",
+      "background": "bg",
+      "ratio": 11,
+      "minimum": 3,
+      "passed": true
+    }
+  ]
+}

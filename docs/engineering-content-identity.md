@@ -1,0 +1,15 @@
+# Immutable content and project downloads
+
+A corrected explanation and a changed exercise are different updates. DevPractice attaches notes and bookmarks to a stable item ID, while attempts retain the exact immutable content version and mastery revision used for grading. A prose-only correction can increase the content version without erasing evidence. Changing a choice's meaning, executable starter, grading cases, objective mapping or mission completion behavior requires a new mastery revision.
+
+Publication runs inside the owner's serialized mutation transaction. It compares the preview checksum and base release, rejects attempts to reuse an immutable version with different bytes, creates release membership, and activates the complete snapshot together. A failure leaves the previous active release intact. Request receipts make a retry return the original accepted result instead of granting duplicate XP.
+
+Project download IDs now obey the same identity principle. A package cannot declare a duplicate asset ID, and a published ID cannot later point to a different path or SHA256 checksum. Identical references may be reused. Archived manifests keep earlier downloads reachable. The local mission builder refuses to overwrite different ZIP bytes under an existing asset filename, and the verifier reads every ZIP entry and checks its digest.
+
+Asset revisions and course releases are separate. For example, V1's support-desk assets reached v4 as dependency and installation fixes were added; this does not mean the .NET course release exists. The manifest preserves v1 through v3 alongside current v4. Changed packaged bytes receive new asset IDs and mission content versions.
+
+The independent Astra review found that builder-level immutability alone did not protect uploaded manifests. The resulting changes live in packages/contracts/src/content.ts, apps/api/src/content.ts and apps/api/src/personal.ts. tests/assets.test.ts checks duplicate rejection, conflicting identity rejection, atomic preservation of the active release, identical reuse and archived byte equality. Its execution status is recorded in the integrated verification report rather than inferred from this explanation.
+
+The support-desk reference also needs a real nested pnpm workspace boundary. A workspace file that did not include the reference package allowed an install to target the ancestor platform's node_modules. The reference now includes itself as its own workspace package. Fresh archive acceptance is performed in a separate temporary directory outside the platform repository, so an installation cannot mutate the platform dependencies.
+
+Practice: make an editorial copy of a lesson with a new content version and unchanged mastery revision, preview its diff, and verify that earlier attempts remain visible. Then change a grading case without changing masteryRevision and observe the publication rejection. For a changed project ZIP, use a new asset ID and checksum instead of replacing a previously published download.

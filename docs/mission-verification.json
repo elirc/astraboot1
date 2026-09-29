@@ -1,0 +1,36 @@
+{
+  "status": "verified with listed limits",
+  "date": "2026-09-09",
+  "runtime": {
+    "node": "22.16.0",
+    "postgresql": "18.4",
+    "browser": "Chromium 1243 installed binary"
+  },
+  "reference": {
+    "typecheck": "passed",
+    "viteBuild": "passed",
+    "interfaceUnitTests": 6,
+    "postgresqlTests": 8,
+    "mockAdapterPhoneJourney": "passed",
+    "httpAdapterPostgresPhoneJourney": "passed"
+  },
+  "starters": {
+    "m01": {
+      "baselinePassed": 1,
+      "expectedMissionFailures": 5
+    },
+    "m02": {
+      "baselinePassed": 2,
+      "expectedMissionFailures": 4
+    },
+    "m03": {
+      "expectedOwnershipFailures": 2,
+      "identityGuardPassed": 1
+    }
+  },
+  "limits": [
+    "Existing pinned workspace dependencies were reused through an ignored node_modules junction for local test runs.",
+    "Docker engine was unavailable; PostgreSQL tests used a real loopback Windows PostgreSQL instance.",
+    "Fresh archive installation in an empty dependency store has not yet been verified."
+  ]
+}

@@ -1,0 +1,1 @@
+import 'dotenv/config';import {db} from '../apps/api/src/db';const result=await db.session.deleteMany({where:{OR:[{expiresAt:{lt:new Date()}},{revokedAt:{lt:new Date(Date.now()-30*86400000)}}]}});console.log('Removed '+result.count+' expired/revoked sessions.');console.log('Mutation receipts and learning events are retained for durable replay.');await db.$disconnect();

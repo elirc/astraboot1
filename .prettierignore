@@ -1,0 +1,10 @@
+node_modules
+.tools
+.data
+dist
+test-results
+playwright-report
+projects/**/generated
+assets
+
+docs/product-spec.md

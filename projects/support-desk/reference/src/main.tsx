@@ -1,0 +1,2 @@
+import React from 'react';import {createRoot} from 'react-dom/client';import {BrowserRouter} from 'react-router-dom';import {Desk} from './App';import {createMockAdapter} from './mock-api';import {createHttpAdapter} from './http-api';import './style.css';
+const adapter=import.meta.env.VITE_API_MODE==='http'?createHttpAdapter():createMockAdapter();createRoot(document.getElementById('root')!).render(<React.StrictMode><BrowserRouter><Desk adapter={adapter}/></BrowserRouter></React.StrictMode>);

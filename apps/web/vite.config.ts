@@ -1,0 +1,3 @@
+import {defineConfig} from 'vite';import react from '@vitejs/plugin-react';import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('.',import.meta.url));
+export default defineConfig(({mode})=>({root,plugins:[react()],server:{host:'127.0.0.1',port:5178,strictPort:true,proxy:{'/api':'http://127.0.0.1:4310'}},preview:{host:'127.0.0.1',port:5178,strictPort:true,proxy:{'/api':'http://127.0.0.1:4310'}},build:{outDir:'../../dist/client',emptyOutDir:true,rollupOptions:{input:mode==='verification'?{app:root+'/index.html',runner:root+'/runner-test.html'}:root+'/index.html'}},worker:{format:'es'}}));

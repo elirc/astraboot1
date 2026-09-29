@@ -1,0 +1,2 @@
+import {db} from '../api/db';import {seed} from '../api/seed';
+export async function resetTrainingDatabase(){if(!process.env.TEST_DATABASE_URL||process.env.DATABASE_URL!==process.env.TEST_DATABASE_URL||!new URL(process.env.TEST_DATABASE_URL).pathname.includes('_test'))throw new Error('Set DATABASE_URL and TEST_DATABASE_URL to the same disposable *_test database.');await db.comment.deleteMany();await db.ticket.deleteMany();await db.user.deleteMany();await seed();}

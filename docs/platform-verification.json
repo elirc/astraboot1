@@ -1,0 +1,78 @@
+{
+    "recordedAt":  "2026-09-09T22:39:24.0827550Z",
+    "node":  "24.21.0",
+    "database":  "PostgreSQL 18.1, dedicated disposable database",
+    "integratedRun":  {
+                          "total":  28,
+                          "passed":  27,
+                          "failed":  1,
+                          "pending":  0,
+                          "result":  "27 passed; malformed-path status assertion failed"
+                      },
+    "correction":  {
+                       "file":  "tests/api.test.ts",
+                       "reason":  "Patched static middleware deliberately rejects malformed paths with 403. Canonical unauthenticated API remains exactly 401. Malformed-path assertion requires 401/403/404, an error, and no data.",
+                       "review":  "Astra inspected installed middleware and its regression tests",
+                       "command":  "node_modules/vitest/vitest.mjs run tests/api.test.ts -t A01 --reporter=default",
+                       "exitCode":  0,
+                       "passed":  2,
+                       "selectedPattern":  "A01",
+                       "unselected":  11
+                   },
+    "coverage":  "All 28 unique unit/API checks have passing coverage across the integrated run and focused assertion-correction rerun; this is not a claim of a single all-green full-suite invocation.",
+    "static":  {
+                   "value":  [
+                                 {
+                                     "command":  "node_modules/typescript/bin/tsc --noEmit",
+                                     "startedAt":  "2026-09-09T22:16:24.7593678Z",
+                                     "finishedAt":  "2026-09-09T22:24:02.5288027Z",
+                                     "exitCode":  0,
+                                     "stdout":  "C:\\Users\\Owner\\Desktop\\astraboot1\\.data\\check-static-1.out.log",
+                                     "stderr":  "C:\\Users\\Owner\\Desktop\\astraboot1\\.data\\check-static-1.err.log"
+                                 },
+                                 {
+                                     "command":  "node_modules/eslint/bin/eslint.js .",
+                                     "startedAt":  "2026-09-09T22:24:03.5566797Z",
+                                     "finishedAt":  "2026-09-09T22:30:32.4140936Z",
+                                     "exitCode":  0,
+                                     "stdout":  "C:\\Users\\Owner\\Desktop\\astraboot1\\.data\\check-static-2.out.log",
+                                     "stderr":  "C:\\Users\\Owner\\Desktop\\astraboot1\\.data\\check-static-2.err.log"
+                                 }
+                             ],
+                   "Count":  2
+               },
+    "scope":  "Backend and shared contracts at this checkpoint. The subsequent Today active-mission link requires final frontend verification.",
+    "apiCompletenessChecks":  {
+                                  "runs":  {
+                                               "value":  [
+                                                             {
+                                                                 "command":  "node_modules/prettier/bin/prettier.cjs --write apps/api/src/auth.ts apps/api/src/config.ts apps/api/src/content.ts apps/api/src/personal.ts tests/config.test.ts tests/api.test.ts",
+                                                                 "startedAt":  "2026-09-10T00:03:37.1134972Z",
+                                                                 "finishedAt":  "2026-09-10T00:04:24.7955986Z",
+                                                                 "exitCode":  0,
+                                                                 "stdout":  ".data/final-api-1.out.log",
+                                                                 "stderr":  ".data/final-api-1.err.log"
+                                                             },
+                                                             {
+                                                                 "command":  "node_modules/vitest/vitest.mjs run tests/config.test.ts tests/api.test.ts -t configuration|A22|A23|A24",
+                                                                 "startedAt":  "2026-09-10T00:04:27.3973859Z",
+                                                                 "finishedAt":  "2026-09-10T00:08:56.3361647Z",
+                                                                 "exitCode":  0,
+                                                                 "stdout":  ".data/final-api-2.out.log",
+                                                                 "stderr":  ".data/final-api-2.err.log"
+                                                             }
+                                                         ],
+                                               "Count":  2
+                                           },
+                                  "passed":  6,
+                                  "notSelected":  12,
+                                  "checks":  [
+                                                 "Three login throttle configuration cases",
+                                                 "A22 default five-failure throttle",
+                                                 "A23 configured limit preserves account and address buckets",
+                                                 "A24 published tracks and owner-scoped search before pagination with associated note links"
+                                             ],
+                                  "environmentNote":  "Test-only Prisma connect_timeout=30 to accommodate this shared host; production defaults unchanged.",
+                                  "sourceReview":  "Astra accepted focused API source and ADR0003; this record is targeted runtime evidence, not a single full-suite rerun."
+                              }
+}
